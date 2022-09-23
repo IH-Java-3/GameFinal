@@ -9,7 +9,7 @@ int strength;
         return stamina;
     }
 
-    public void setStamina(int stamina) {
+    public void setStamina() {
         this.stamina = new Random().nextInt(10, 50);
     }
 
@@ -21,10 +21,16 @@ int strength;
         this.strength = new Random().nextInt(1, 10);
    }
 
-    public Guerrero(int id, String name, int hp, boolean isAlive, int stamina, int strength) {
-        super(id, name, hp, isAlive);
-        this.stamina = stamina;
-        this.strength = strength;
+    public Guerrero(String name, int idParty) {
+        super(name, idParty);
+        setStamina();
+        setStrength();
+        setHp();
+    }
+
+    @Override
+    public void setHp() {
+        this.hp = new Random().nextInt(100, 200);
     }
 
     @Override

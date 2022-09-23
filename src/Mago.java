@@ -19,8 +19,8 @@ int intelligence;
         this.intelligence = intelligence;
     }
 
-    public Mago(int id, String name, int hp, boolean isAlive, int mana, int intelligence) {
-        super(id, name, hp, isAlive);
+    public Mago(int id, String name, int hp, boolean isAlive, int mana, int intelligence, int idParty) {
+        super(name, idParty);
         this.mana = mana;
         this.intelligence = intelligence;
     }

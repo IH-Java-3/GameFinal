@@ -8,16 +8,27 @@ public abstract class Personaje {
     int hp;
     boolean isAlive;
 
-    int
+    int idParty;
+
+    int counter = 0;
 
     ArrayList<String> listaNombres = new ArrayList <String>(List.of("Pikachu", "Raichu", "Snorlax", "Rattata", "Squirtle", "Charmander",
             "Bacu", "Arceus", "Zygarde", "Gengar", "11","12","13","14", "15", "16", "17", "18", "19", "20"));
 
-    public Personaje(int id, String name, int hp, boolean isAlive) {
-        this.id = id;
+    public Personaje(String name, int idParty) {
+        this.id = counter++;
         this.name = name;
-        this.hp = hp;
-        this.isAlive = isAlive;
+        this.isAlive = true;
+        setIdParty(idParty);
+
+    }
+
+    public int getIdParty() {
+        return idParty;
+    }
+
+    public void setIdParty(int idParty) {
+        this.idParty = idParty;
     }
 
     public int getId() {
@@ -46,5 +57,19 @@ public abstract class Personaje {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    @Override
+    public String toString() {
+        return "Personaje{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", hp=" + hp +
+                ", isAlive=" + isAlive +
+                ", idParty=" + idParty +
+                '}';
+    }
+
+    protected void setHp() {
     }
 }
