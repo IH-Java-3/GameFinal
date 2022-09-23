@@ -19,8 +19,14 @@ int intelligence;
         this.intelligence = intelligence;
     }
 
-    public Mago(int mana, int intelligence) {
+    public Mago(int id, String name, int hp, boolean isAlive, int mana, int intelligence) {
+        super(id, name, hp, isAlive);
         this.mana = mana;
         this.intelligence = intelligence;
+    }
+
+    @Override
+    public int attack() {
+        return 0;
     }
 }

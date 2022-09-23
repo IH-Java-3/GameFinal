@@ -10,7 +10,7 @@ int strength;
     }
 
     public void setStamina(int stamina) {
-        this.stamina = stamina;
+        this.stamina = new Random().nextInt(10, 50);
     }
 
     public int getStrength() {
@@ -18,11 +18,11 @@ int strength;
     }
 
     public void setStrength() {
-        Random random = new Random();
-        this.strength = random.nextInt();
-    }
+        this.strength = new Random().nextInt(1, 10);
+   }
 
-    public Guerrero(int stamina, int strength) {
+    public Guerrero(int id, String name, int hp, boolean isAlive, int stamina, int strength) {
+        super(id, name, hp, isAlive);
         this.stamina = stamina;
         this.strength = strength;
     }
