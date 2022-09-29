@@ -1,11 +1,20 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 public class Menu {
 
     public static void titulo(String titulo) throws Exception {
         ASCIIArtGenerator artGen = new ASCIIArtGenerator();
-        artGen.printTextArt(titulo, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG,"+");
+        artGen.printTextArt(titulo, 12, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
+    }
+
+    public static void options(String titulo) throws Exception {
+        ASCIIArtGenerator artGen = new ASCIIArtGenerator();
+        artGen.printTextArt(titulo, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
     }
 
     public static void clearScreen() {
@@ -17,23 +26,27 @@ public class Menu {
             throw new RuntimeException(e);
         }
     }
+
     public static boolean mainMenu() throws Exception {
+        Graphics.sky();
         boolean exit = false;
         int opcion;
-        clearScreen();
-        Music.startMusic();
-        Graphics.sky();
+        //Music.stopMusic();
+        //Music.startBgMusic();
+        //Music.startStopBgMusic();
         System.out.println(Graphics.ANSI_RED);
-        Menu.titulo("         Main Menu");
+        Menu.titulo("                Main Menu");
         System.out.println(Graphics.ANSI_RESET);
-        System.out.print("                           1. Create Party");
+        System.out.println(Graphics.ANSI_BLUE);
+        System.out.print("                                                       1. Create Party");
         System.out.println("           2. Simulate Battle");
         System.out.println();
-        System.out.print("                           3. Show Graveyard");
+        System.out.print("                                                       3. Show Graveyard");
         System.out.println("         4. Export Party");
         System.out.println();
-        System.out.println("                                             5. Exit");
+        System.out.println("                                                                         5. Exit");
         System.out.println();
+        System.out.print(Graphics.ANSI_RESET);
         Scanner sn = new Scanner(System.in);
         try {
             System.out.println("                           Escribe una de las opciones ");
@@ -68,21 +81,23 @@ public class Menu {
         }
         return exit;
     }
+
     public static void createParty() throws Exception {
-        clearScreen();
+        Graphics.sky();
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
         int opcion;
         while (!salir) {
             System.out.println(Graphics.ANSI_RED);
-            titulo("         Create Party");
+            Menu.titulo("                Create Party");
             System.out.println(Graphics.ANSI_RESET);
             System.out.println("1. Manual");
             System.out.println("2. Al azar");
             System.out.println("3. Importar desde CSV");
             System.out.println("4. Volver al menu anterior");
             try {
-                System.out.print("Escribe una de las opciones ");
+                System.out.println("Escribe una de las opciones ");
+                Graphics.land();
                 opcion = sn.nextInt();
                 switch (opcion) {
                     case 1 -> {
@@ -101,7 +116,6 @@ public class Menu {
                         salir = true;
                     }
                     case 4 -> {
-                        clearScreen();
                         salir = true;
                     }
                     default -> System.out.println("Solo números entre 1 y 4");
@@ -112,24 +126,59 @@ public class Menu {
             }
         }
     }
+
     public static void createPartyManual() {
-        clearScreen();
+        Graphics.sky();
         System.out.println("Crear party Manual");
-    }
-    public static void createPartyAzar() {
-        clearScreen();
-        System.out.println("Crear party al Azar");
-    }
-    public static void createPartyImport() {
-        clearScreen();
-        System.out.println("Importar party desde archivo");
+        Graphics.land();
     }
 
+    public static void createPartyAzar() {
+        Graphics.sky();
+        System.out.println("Crear party al Azar");
+        Graphics.land();
+    }
+
+    public static void createPartyImport() throws Exception {
+        //Music.stopMusic();
+        //Music.startBattleMusic();
+        //Music.startStopBgMusic();
+        //Music.startStopBattleMusic();
+        Graphics.sky();
+        System.out.println(Graphics.ANSI_RED);
+        Menu.titulo("                Importar party");
+        System.out.println(Graphics.ANSI_RESET);
+        //System.out.println("Importar party");
+        Scanner sn = new Scanner(System.in);
+        String file;
+        System.out.println("Escribe el nombre del CSV a importar sin la extensión ");
+        Graphics.land();
+        file = sn.nextLine();
+        file = "c:/java/game/src/" + file + ".csv";
+        File f = new File(file);
+        try {
+            File myObj = new File(file);
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                //System.out.println(data);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        System.out.println();
+        System.out.println("Importando party...");
+        Thread.sleep(5000);
+        //Music.startStopBattleMusic();
+
+    }
 
     public static void simulateBattle() {
-        clearScreen();
+        Graphics.sky();
         //var m = new Sonidos();
-        Music.stopMusic();
+        //Music.stopMusic();
         Scanner sn = new Scanner(System.in);
         boolean salir = false;
         int opcion;
@@ -140,6 +189,7 @@ public class Menu {
             System.out.println("3. Volver al menu anterior");
             try {
                 System.out.println("Escribe una de las opciones");
+                Graphics.land();
                 opcion = sn.nextInt();
                 switch (opcion) {
                     case 1 -> {
@@ -174,7 +224,37 @@ public class Menu {
     public static void showGraveyard() {
     }
 
-    public static void exportParty() {
+    public static void exportParty() throws Exception {
+        //Music.stopMusic();
+        //Music.startStopBattleMusic();
+        Graphics.sky();
+        System.out.println(Graphics.ANSI_RED);
+        Menu.titulo("                Export party");
+        System.out.println(Graphics.ANSI_RESET);
+        Scanner sn = new Scanner(System.in);
+        String file;
+        System.out.println("Escribe el nombre del CSV a exportar sin la extensión ");
+        Graphics.land();
+        file = sn.nextLine();
+        file = "c:/java/game/src/" + file + ".csv";
+        try {
+            File myObj = new File(file);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        System.out.println();
+        System.out.println("Importando party...");
+        Thread.sleep(5000);
+        //Music.startStopBattleMusic();
     }
+
+
 }
 

@@ -7,16 +7,13 @@ public class Sound implements Runnable {
     public String getFileLocation() {
         return fileLocation;
     }
-
     public Sound() {
     }
-
     public void play(String fileLocation) {
         Thread t = new Thread(this);
         this.fileLocation = fileLocation;
         t.start();
     }
-
     public void run ()
     {
         playSound(fileLocation);
@@ -32,9 +29,7 @@ public class Sound implements Runnable {
             e.printStackTrace();
             return;
         }
-
         Clip clip;
-
         try {
             clip = AudioSystem.getClip();
         } catch (LineUnavailableException e) {
@@ -67,6 +62,5 @@ public class Sound implements Runnable {
         }
         line.drain();
         line.close();
-
     }
 }
