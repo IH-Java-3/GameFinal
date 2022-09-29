@@ -162,7 +162,7 @@ public class Party {
         }
     }
 
-    public static void battleManual() {
+    public static void battleManual() throws Exception {
         int damage1 = 0, damage2 = 0;
         while (hasMembersAlive(0) && hasMembersAlive(1)) {
             Character player1 = chooseCharacterManual(0);
@@ -197,8 +197,8 @@ public class Party {
                     }
                 }
 
-                System.out.print("Party 1 " + player1.getName() + " hace " + damage1 + " puntos de daño a " + player2.getName());
-                System.out.println(" Y Party 2 " + player2.getName() + " hace " + damage2 + " puntos de daño a " + player1.getName());
+                System.out.print(Graphics.ANSI_BLUE + "Party 1 " + player1.getName() + Graphics.ANSI_RESET + " hace " + damage1 + " puntos de daño a " + Graphics.ANSI_GREEN + player2.getName());
+                System.out.println(Graphics.ANSI_RESET + " Y " + Graphics.ANSI_GREEN + "Party 2 " + player2.getName() + Graphics.ANSI_RESET + " hace " + damage2 + " puntos de daño a " + Graphics.ANSI_BLUE + "Party 1 " + player1.getName() + Graphics.ANSI_RESET);
 
                 player1.setHp(player1.getHp() - damage2);
                 player2.setHp(player2.getHp() - damage1);
@@ -206,20 +206,26 @@ public class Party {
                     player1.setHp(0);
                     player1.setAlive(false);
                     removeCharacter(player1);
-                    System.out.println("Party 1 " + Graphics.ANSI_RED + player1.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
+                    System.out.println(Graphics.ANSI_BLUE + "Party 1 " + Graphics.ANSI_RED + player1.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
                 }
                 if (player2.getHp() <= 0) {
                     player2.setHp(0);
                     player2.setAlive(false);
                     removeCharacter(player2);
-                    System.out.println("Party 2 " + Graphics.ANSI_RED + player2.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
+                    System.out.println(Graphics.ANSI_GREEN + "Party 2 " + Graphics.ANSI_RED + player2.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
                 }
             }
         }
         if (hasMembersAlive(0)) {
-            System.out.println("\nParty 1 ha ganado la batalla\n");
+            //System.out.println("\nParty 1 ha ganado la batalla\n");
+            System.out.println(Graphics.ANSI_BLUE);
+            Menu.winner("Party 1 ha ganado la batalla");
+            System.out.println(Graphics.ANSI_RESET);
         } else {
-            System.out.println("\nParty 2 ha ganado la batalla\n");
+            System.out.println(Graphics.ANSI_GREEN);
+            Menu.winner("Party 2 ha ganado la batalla");
+            System.out.println(Graphics.ANSI_RESET);
+            //System.out.println("\nParty 2 ha ganado la batalla\n");
         }
     }
 
@@ -243,12 +249,16 @@ public class Party {
 
     public static Character chooseCharacterManual(int idParty) {
         Character chosenCharacter = null;
-        System.out.println("Elige personaje de equipo " + idParty);
+        System.out.println("Equipo " + (idParty+1));
+        System.out.print(Graphics.ANSI_BLUE);
+        if (idParty == 1) System.out.print(Graphics.ANSI_GREEN);
         for (Character p : party) {
             if (p.idParty == idParty && p.getHp() > 0) {
                 System.out.println(p.id + "- " + p.name);
             }
         }
+        System.out.print(Graphics.ANSI_RESET);
+        System.out.print("Elige personaje de equipo " + (idParty+1) + ": ");
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
         //System.out.println("Has elegido a: " + s);
@@ -272,7 +282,7 @@ public class Party {
     public static void importParty() throws InterruptedException {
         Scanner sn = new Scanner(System.in);
         String file;
-        System.out.println("Escribe el nombre del CSV a importar sin la extensión ");
+        System.out.print("Escribe el nombre del CSV a importar sin la extensión: ");
 
         file = sn.nextLine();
         file = "c:/java/game/src/" + file + ".csv";
@@ -283,12 +293,8 @@ public class Party {
             myReader.nextLine();
             while (myReader.hasNextLine()) {
                 String[] data = myReader.nextLine().split(",");
-                //for (int i = 0; i < data.length-1; i++) {
-                //System.out.println(data[2]);
                 if (data[0].equals("0")) {
                     if (data[1].equals("1")) {
-                        //0id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2
-                        //public Warrior(String name, int idParty, int hp, boolean isAlive,int stamina, int strength) {
                         party.add(new Warrior(data[2], 0, Integer.parseInt(data[3]), parseBoolean(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
                     } else if (data[1].equals("2")) {
                         party.add(new Wizard(data[2], 0, Integer.parseInt(data[3]), parseBoolean(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
@@ -309,7 +315,7 @@ public class Party {
         System.out.println();
         System.out.println("Importando party...");
         //System.out.println(party);
-        Thread.sleep(3000);
+        Thread.sleep(1000);
 
     }
 }

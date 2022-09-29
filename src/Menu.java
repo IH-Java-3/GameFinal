@@ -12,6 +12,11 @@ public class Menu {
         artGen.printTextArt(titulo, 12, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
     }
 
+    public static void winner(String titulo) throws Exception {
+        ASCIIArtGenerator artGen = new ASCIIArtGenerator();
+        artGen.printTextArt(titulo, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "*");
+    }
+
     public static void options(String titulo) throws Exception {
         ASCIIArtGenerator artGen = new ASCIIArtGenerator();
         artGen.printTextArt(titulo, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
@@ -49,8 +54,8 @@ public class Menu {
         System.out.print(Graphics.ANSI_RESET);
         Scanner sn = new Scanner(System.in);
         try {
-            System.out.println("                           Escribe una de las opciones ");
             Graphics.land();
+            System.out.print("                           Escribe una de las opciones: ");
             opcion = sn.nextInt();
             switch (opcion) {
                 case 1 -> {
@@ -96,8 +101,8 @@ public class Menu {
             System.out.println("3. Importar desde CSV");
             System.out.println("4. Volver al menu anterior");
             try {
-                System.out.println("Escribe una de las opciones ");
                 Graphics.land();
+                System.out.print("Escribe una de las opciones: ");
                 opcion = sn.nextInt();
                 switch (opcion) {
                     case 1 -> {
@@ -178,8 +183,8 @@ public class Menu {
             System.out.println("2. Automatico");
             System.out.println("3. Volver al menu anterior");
             try {
-                System.out.println("Escribe una de las opciones");
                 Graphics.land();
+                System.out.print("Escribe una de las opciones: ");
                 opcion = sn.nextInt();
                 switch (opcion) {
                     case 1 -> {
@@ -203,6 +208,8 @@ public class Menu {
             } catch (InputMismatchException e) {
                 System.out.println("Debes insertar un número");
                 sn.next();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -226,8 +233,8 @@ public class Menu {
         System.out.println(Graphics.ANSI_RESET);
         Scanner sn = new Scanner(System.in);
         String file;
-        System.out.println("Escribe el nombre del CSV a exportar sin la extensión ");
         Graphics.land();
+        System.out.print("Escribe el nombre del CSV a exportar sin la extensión: ");
         file = sn.nextLine();
         file = "c:/java/game/src/" + file + ".csv";
         try {
