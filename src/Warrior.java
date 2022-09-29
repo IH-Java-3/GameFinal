@@ -1,7 +1,6 @@
 import java.util.Random;
 
 public class Warrior extends Character implements Attacker{
-
     int stamina;
     int strength;
 
@@ -14,8 +13,8 @@ public class Warrior extends Character implements Attacker{
         super(name, idParty);
         this.hp = hp;
         this.isAlive = isAlive;
-        this.stamina = stamina;
-        this.strength = strength;
+        setStamina(stamina);
+        setStrength(strength);
     }
 
     public int getStamina() {
@@ -42,13 +41,11 @@ public class Warrior extends Character implements Attacker{
 
     public int attackNormal() {
         setStamina(getStamina()-5);
-        //System.out.println("Daño1 " + character.getStrength());
         return getStrength();
     }
 
     public int attackEspecial() {
         setStamina(getStamina()+1);
-        //System.out.println("Daño2 " + (int) (character.getStrength()/2));
         return (int) (getStrength()/2);
     }
 }

@@ -274,6 +274,7 @@ public class Party {
         for (Character p : graveyard) {
             if (p.getHp() <= 0) {
                 System.out.println("Muerto: " + p);
+
             }
         }
         if (graveyard.size() == 0) System.out.println("Cementerio vacío");
@@ -286,7 +287,6 @@ public class Party {
 
         file = sn.nextLine();
         file = "c:/java/game/src/" + file + ".csv";
-        File f = new File(file);
         try {
             File myObj = new File(file);
             Scanner myReader = new Scanner(myObj);

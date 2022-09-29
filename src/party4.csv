@@ -1,0 +1,11 @@
+0 id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2
+0,2,Clefable,98,1,11,12
+0,2,Zygarde,99,1,26,20
+0,1,Rattata,107,1,33,4
+0,1,Metapod,198,1,47,8
+0,2,Butterfree,88,1,30,16
+1,2,Snorlax,84,1,29,13
+1,2,Charizard,61,1,37,37
+1,1,Venusaur,134,1,29,2
+1,1,Ivysaur,175,1,29,7
+1,1,Ivysaur Jr,200,1,39,8

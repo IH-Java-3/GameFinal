@@ -1,0 +1,12 @@
+0 id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2
+0,2,Pikachu,95,1,44,
+0,1,Snorlax,158,1,16,
+
+0,2,Blastoise,62,1,39,
+0,1,Ivysaur,113,1,11,
+0,1,Bacu,143,1,20,	
+1,2,Arceus,89,1,40,
+1,1,Rattata,162,1,24,
+1,2,Caterpie,59,1,27,1
+1,2,Zygarde,55,1,25,
+1,2,Arceus Jr,52,1,50,$

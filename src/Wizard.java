@@ -14,8 +14,8 @@ public class Wizard extends Character implements Attacker{
         super(name, idParty);
         this.hp = hp;
         this.isAlive = isAlive;
-        this.mana = mana;
-        this.intelligence = intelligence;
+        setMana(mana);
+        setIntelligence(intelligence);
     }
 
     public int getMana() {
@@ -40,15 +40,12 @@ public class Wizard extends Character implements Attacker{
         this.hp = new Random().nextInt(50, 101);
     }
 
-
     public int attackNormal() {
         setMana(getMana()-5);
-        //System.out.println("Daño1 " + character.getIntelligence());
         return getIntelligence();
     }
 
     public int attackEspecial() {
-        //System.out.println("Daño2 2");
         setMana(getMana()+1);
         return 2;
     }

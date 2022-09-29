@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -7,19 +6,19 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static void titulo(String titulo) throws Exception {
+    public static void title(String title) throws Exception {
         ASCIIArtGenerator artGen = new ASCIIArtGenerator();
-        artGen.printTextArt(titulo, 12, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
+        artGen.printTextArt(title, 12, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
     }
 
-    public static void winner(String titulo) throws Exception {
+    public static void winner(String title) throws Exception {
         ASCIIArtGenerator artGen = new ASCIIArtGenerator();
-        artGen.printTextArt(titulo, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "*");
+        artGen.printTextArt(title, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "*");
     }
 
-    public static void options(String titulo) throws Exception {
+    public static void options(String title) throws Exception {
         ASCIIArtGenerator artGen = new ASCIIArtGenerator();
-        artGen.printTextArt(titulo, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
+        artGen.printTextArt(title, 10, ASCIIArtGenerator.ASCIIArtFont.ART_FONT_DIALOG, "+");
     }
 
     public static void clearScreen() {
@@ -40,7 +39,7 @@ public class Menu {
         //Music.startBgMusic();
         //Music.startStopBgMusic();
         System.out.println(Graphics.ANSI_RED);
-        Menu.titulo("                Main Menu");
+        Menu.title("                Main Menu");
         System.out.println(Graphics.ANSI_RESET);
         System.out.println(Graphics.ANSI_BLUE);
         System.out.print("                                                       1. Create Party");
@@ -55,7 +54,9 @@ public class Menu {
         Scanner sn = new Scanner(System.in);
         try {
             Graphics.land();
+            System.out.print(Graphics.ANSI_CYAN);
             System.out.print("                           Escribe una de las opciones: ");
+            System.out.print(Graphics.ANSI_RESET);
             opcion = sn.nextInt();
             switch (opcion) {
                 case 1 -> {
@@ -94,7 +95,7 @@ public class Menu {
         int opcion;
         while (!salir) {
             System.out.println(Graphics.ANSI_RED);
-            Menu.titulo("                Create Party");
+            Menu.title("                Create Party");
             System.out.println(Graphics.ANSI_RESET);
             System.out.println("1. Manual");
             System.out.println("2. Al azar");
@@ -102,7 +103,9 @@ public class Menu {
             System.out.println("4. Volver al menu anterior");
             try {
                 Graphics.land();
-                System.out.print("Escribe una de las opciones: ");
+                System.out.print(Graphics.ANSI_CYAN);
+                System.out.print("                           Escribe una de las opciones: ");
+                System.out.print(Graphics.ANSI_RESET);
                 opcion = sn.nextInt();
                 switch (opcion) {
                     case 1 -> {
@@ -120,9 +123,7 @@ public class Menu {
                         Menu.createPartyImport();
                         salir = true;
                     }
-                    case 4 -> {
-                        salir = true;
-                    }
+                    case 4 -> salir = true;
                     default -> System.out.println("Solo números entre 1 y 4");
                 }
             } catch (InputMismatchException e) {
@@ -137,10 +138,7 @@ public class Menu {
         System.out.println("Crear party Manual");
         if(Party.checkEmptyParty(Party.party)) {
             Party.createCharacter();
-        } else {
-            //desea sobreescribir
         }
-
         Graphics.land();
     }
 
@@ -159,13 +157,13 @@ public class Menu {
         //Music.startStopBgMusic();
         //Music.startStopBattleMusic();
 
-        //Graphics.sky();
+        Graphics.sky();
         System.out.println(Graphics.ANSI_RED);
-        Menu.titulo("                Importar party");
+        Menu.title("                Importar party");
         System.out.println(Graphics.ANSI_RESET);
         //System.out.println("Importar party");
+        Graphics.land();
         Party.importParty();
-        //Graphics.land();
         //Music.startStopBattleMusic();
 
     }
@@ -178,31 +176,28 @@ public class Menu {
         boolean salir = false;
         int opcion;
         while (!salir) {
-
             System.out.println("1. Manual");
             System.out.println("2. Automatico");
             System.out.println("3. Volver al menu anterior");
             try {
                 Graphics.land();
-                System.out.print("Escribe una de las opciones: ");
+                System.out.print("                           Escribe una de las opciones: ");
                 opcion = sn.nextInt();
                 switch (opcion) {
                     case 1 -> {
                         System.out.println("Has seleccionado la opcion 1");
-                        //Menu.simulateBattleManual();
                         Party.battleManual();
-                        //salir = true;
+                        System.out.println("                           Presione Enter para continuar...");
+                        try { System.in.read();
+                        } catch(Exception e) {}
+                        salir = true;
                     }
                     case 2 -> {
                         System.out.println("Has seleccionado la opcion 2");
                         Party.battleRandom();
-                        //Menu.simulateBattleAutomatico();
-                        //salir = true;
-                    }
-                    case 3 -> {
-                        clearScreen();
                         salir = true;
                     }
+                    case 3 -> salir = true;
                     default -> System.out.println("Solo números entre 1 y 3");
                 }
             } catch (InputMismatchException e) {
@@ -214,33 +209,37 @@ public class Menu {
         }
     }
 
-    private static void simulateBattleAutomatico() {
-    }
-
-    private static void simulateBattleManual() {
-
-    }
-
-    public static void showGraveyard() {
-    }
-
     public static void exportParty() throws Exception {
         //Music.stopMusic();
         //Music.startStopBattleMusic();
         Graphics.sky();
         System.out.println(Graphics.ANSI_RED);
-        Menu.titulo("                Export party");
+        Menu.title("                Exportar party");
         System.out.println(Graphics.ANSI_RESET);
         Scanner sn = new Scanner(System.in);
         String file;
         Graphics.land();
-        System.out.print("Escribe el nombre del CSV a exportar sin la extensión: ");
+        System.out.print("                           Escribe el nombre del CSV a exportar sin la extensión: ");
         file = sn.nextLine();
         file = "c:/java/game/src/" + file + ".csv";
         try {
             File myObj = new File(file);
             if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
+                System.out.println("Archivo creado: " + myObj.getName());
+                // 0 id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2
+                FileWriter myWriter = new FileWriter(file);
+                myWriter.write("0 id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2\n");
+                for (Character p : Party.party) {
+                    myWriter.write(p.getIdParty() + ",");
+                    myWriter.write(((p instanceof Warrior) ? 1 : 2)+ ",");
+                    myWriter.write(p.getName() + ",");
+                    myWriter.write(p.getHp() + ",");
+                    myWriter.write(((p.isAlive) ? 1 : 0) + ",");
+                    myWriter.write(((p instanceof Warrior) ? ((Warrior) p).getStamina() : ((Wizard) p).getMana())+ ",");
+                    myWriter.write(((p instanceof Warrior) ? ((Warrior) p).getStrength() : ((Wizard) p).getIntelligence())+ "\n");
+                }
+                myWriter.close();
+
             } else {
                 System.out.println("File already exists.");
             }
@@ -250,8 +249,8 @@ public class Menu {
         }
 
         System.out.println();
-        System.out.println("Importando party...");
-        Thread.sleep(5000);
+        System.out.println("Exportando party...");
+        Thread.sleep(1000);
         //Music.startStopBattleMusic();
     }
 
