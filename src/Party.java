@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Party {
-    public static List<Character> party = new ArrayList<Character>();
+import static java.lang.Boolean.parseBoolean;
 
-    public static List<Character> party1 = new ArrayList<Character>();
-    public static List<Character> party2 = new ArrayList<Character>();
-    public static List<Character> graveyard = new ArrayList<Character>();
+public class Party {
+    public static List<Character> party = new ArrayList<>();
+
+    public static List<Character> party1 = new ArrayList<>();
+    public static List<Character> party2 = new ArrayList<>();
+    public static List<Character> graveyard = new ArrayList<>();
 
 
     /*
@@ -76,13 +78,13 @@ public class Party {
                 }
             }
         }
-        for (int i = 0; i < party.size(); i++) {
-            //System.out.println(party.get(i) + " " +1 party.get(i).getClass());
-        }
+        //for (int i = 0; i < party.size(); i++) {
+        //    //System.out.println(party.get(i) + " " +1 party.get(i).getClass());
+        //}
     }
 
     public static void createRandomParty() {
-        party = new ArrayList<Character>();
+        party = new ArrayList<>();
         createRandomCharacter(0);
         createRandomCharacter(1);
     }
@@ -100,7 +102,7 @@ public class Party {
     }
 
     public static void battleRandom() {
-        Character player1 = null, player2 = null;
+        Character player1, player2;
         int damage1 = 0, damage2 = 0;
 
         while (hasMembersAlive(0) && hasMembersAlive(1)) {
@@ -141,8 +143,8 @@ public class Party {
                         }
                     }
                 }
-                System.out.println("Party 1 " + player1.getName() + "  hace " + damage1 + " puntos de daño a " + player2.getName());
-                System.out.println("Party 2 " + player2.getName() + "  hace " + damage2 + " puntos de daño a " + player1.getName());
+                System.out.println("Party 1 " + player1.getName() + " hace " + damage1 + " puntos de daño a " + player2.getName());
+                System.out.println("Party 2 " + player2.getName() + " hace " + damage2 + " puntos de daño a " + player1.getName());
 
                 player1.setHp(player1.getHp() - damage2);
                 player2.setHp(player2.getHp() - damage1);
@@ -195,8 +197,8 @@ public class Party {
                     }
                 }
 
-                System.out.println("Party 1 " + player1.getName() + "  hace " + damage1 + " puntos de daño a " + player2.getName());
-                System.out.println("Party 2 " + player2.getName() + "  hace " + damage2 + " puntos de daño a " + player1.getName());
+                System.out.print("Party 1 " + player1.getName() + " hace " + damage1 + " puntos de daño a " + player2.getName());
+                System.out.println(" Y Party 2 " + player2.getName() + " hace " + damage2 + " puntos de daño a " + player1.getName());
 
                 player1.setHp(player1.getHp() - damage2);
                 player2.setHp(player2.getHp() - damage1);
@@ -204,26 +206,20 @@ public class Party {
                     player1.setHp(0);
                     player1.setAlive(false);
                     removeCharacter(player1);
-                    System.out.println("Party 1 " + player1.getName() + " ha muerto");
-                    System.out.println("");
+                    System.out.println("Party 1 " + Graphics.ANSI_RED + player1.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
                 }
                 if (player2.getHp() <= 0) {
                     player2.setHp(0);
                     player2.setAlive(false);
                     removeCharacter(player2);
-                    System.out.println("Party 2 " + player2.getName() + " ha muerto");
-                    System.out.println("");
+                    System.out.println("Party 2 " + Graphics.ANSI_RED + player2.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
                 }
             }
         }
         if (hasMembersAlive(0)) {
-            System.out.println("");
-            System.out.println("Party 1 ha ganado la batalla");
-            System.out.println("");
+            System.out.println("\nParty 1 ha ganado la batalla\n");
         } else {
-            System.out.println("");
-            System.out.println("Party 2 ha ganado la batalla");
-            System.out.println("");
+            System.out.println("\nParty 2 ha ganado la batalla\n");
         }
     }
 
@@ -239,7 +235,8 @@ public class Party {
         }
         return null;
     }
-    public static void removeCharacter(Character deathPlayer){
+
+    public static void removeCharacter(Character deathPlayer) {
         graveyard.add(deathPlayer);
         party.remove(deathPlayer);
     }
@@ -283,30 +280,26 @@ public class Party {
         try {
             File myObj = new File(file);
             Scanner myReader = new Scanner(myObj);
-
+            myReader.nextLine();
             while (myReader.hasNextLine()) {
-                myReader.nextLine();
                 String[] data = myReader.nextLine().split(",");
-                for (String d : data) {
-                    if (data[0].equals("1")) {
-                        if (data[1].equals("1")) {
-                            //public Warrior(String name, int idParty, int hp, boolean isAlive,int stamina, int strength) {
-                            party1.add(new Warrior(data[2], 0));
-                        } else {
-                            party1.add(new Wizard(data[2], 0));
-                        }
-                    } else if (data[0].equals("2")) {
-                        // public Wizard(String name, int idParty, int hp, boolean isAlive,int mana, int intelligence) {
-                        if (data[1].equals("1")) {
-                            party2.add(new Warrior(data[2], 0));
-                        } else {
-                            party2.add(new Wizard(data[2], 0));
-                        }
-
+                //for (int i = 0; i < data.length-1; i++) {
+                //System.out.println(data[2]);
+                if (data[0].equals("0")) {
+                    if (data[1].equals("1")) {
+                        //0id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2
+                        //public Warrior(String name, int idParty, int hp, boolean isAlive,int stamina, int strength) {
+                        party.add(new Warrior(data[2], 0, Integer.parseInt(data[3]), parseBoolean(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
+                    } else if (data[1].equals("2")) {
+                        party.add(new Wizard(data[2], 0, Integer.parseInt(data[3]), parseBoolean(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
+                    }
+                } else if (data[0].equals("1")) {
+                    if (data[1].equals("1")) {
+                        party.add(new Warrior(data[2], 1, Integer.parseInt(data[3]), parseBoolean(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
+                    } else if (data[1].equals("2")) {
+                        party.add(new Wizard(data[2], 1, Integer.parseInt(data[3]), parseBoolean(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6])));
                     }
                 }
-
-                //System.out.println(data);
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -315,7 +308,8 @@ public class Party {
         }
         System.out.println();
         System.out.println("Importando party...");
-        Thread.sleep(5000);
+        //System.out.println(party);
+        Thread.sleep(3000);
 
     }
 }
