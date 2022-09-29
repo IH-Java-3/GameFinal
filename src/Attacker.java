@@ -1,4 +1,7 @@
-public interface Attacker {
+interface Attacker {
 
-    int attack();
+    int attackNormal();
+
+    int attackEspecial();
+
 }

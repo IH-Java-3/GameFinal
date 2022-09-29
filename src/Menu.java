@@ -63,7 +63,7 @@ public class Menu {
                 }
                 case 3 -> {
                     System.out.println("Has seleccionado la opcion 3");
-                    showGraveyard();
+                    Party.showGraveyard();
                 }
                 case 4 -> {
                     System.out.println("Has seleccionado la opcion 4");
@@ -107,7 +107,7 @@ public class Menu {
                     }
                     case 2 -> {
                         System.out.println("Has seleccionado la opcion 2");
-                        Menu.createPartyAzar();
+                        Menu.createPartyRandom();
                         salir = true;
                     }
                     case 3 -> {
@@ -130,13 +130,22 @@ public class Menu {
     public static void createPartyManual() {
         Graphics.sky();
         System.out.println("Crear party Manual");
+        if(Party.checkEmptyParty(Party.party)) {
+            Party.createCharacter();
+        } else {
+            //desea sobreescribir
+        }
+
         Graphics.land();
     }
 
-    public static void createPartyAzar() {
-        Graphics.sky();
+    public static void createPartyRandom() {
+        //Graphics.sky();
         System.out.println("Crear party al Azar");
-        Graphics.land();
+        if(Party.checkEmptyParty(Party.party)) {
+            Party.createRandomParty();
+        }
+        //Graphics.land();
     }
 
     public static void createPartyImport() throws Exception {
@@ -144,33 +153,14 @@ public class Menu {
         //Music.startBattleMusic();
         //Music.startStopBgMusic();
         //Music.startStopBattleMusic();
-        Graphics.sky();
+
+        //Graphics.sky();
         System.out.println(Graphics.ANSI_RED);
         Menu.titulo("                Importar party");
         System.out.println(Graphics.ANSI_RESET);
         //System.out.println("Importar party");
-        Scanner sn = new Scanner(System.in);
-        String file;
-        System.out.println("Escribe el nombre del CSV a importar sin la extensión ");
-        Graphics.land();
-        file = sn.nextLine();
-        file = "c:/java/game/src/" + file + ".csv";
-        File f = new File(file);
-        try {
-            File myObj = new File(file);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                //System.out.println(data);
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        System.out.println();
-        System.out.println("Importando party...");
-        Thread.sleep(5000);
+        Party.importParty();
+        //Graphics.land();
         //Music.startStopBattleMusic();
 
     }
@@ -194,13 +184,15 @@ public class Menu {
                 switch (opcion) {
                     case 1 -> {
                         System.out.println("Has seleccionado la opcion 1");
-                        Menu.simulateBattleManual();
-                        salir = true;
+                        //Menu.simulateBattleManual();
+                        Party.battleManual();
+                        //salir = true;
                     }
                     case 2 -> {
                         System.out.println("Has seleccionado la opcion 2");
-                        Menu.simulateBattleAutomatico();
-                        salir = true;
+                        Party.battleRandom();
+                        //Menu.simulateBattleAutomatico();
+                        //salir = true;
                     }
                     case 3 -> {
                         clearScreen();
@@ -219,6 +211,7 @@ public class Menu {
     }
 
     private static void simulateBattleManual() {
+
     }
 
     public static void showGraveyard() {
