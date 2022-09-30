@@ -9,18 +9,10 @@ import static java.lang.Boolean.parseBoolean;
 
 public class Party {
     public static List<Character> party = new ArrayList<>();
-
+    public static List<Character> party0 = new ArrayList<>();
     public static List<Character> party1 = new ArrayList<>();
-    public static List<Character> party2 = new ArrayList<>();
     public static List<Character> graveyard = new ArrayList<>();
 
-
-    /*
-    public static void main(String[] args) {
-        createRandomParty();
-        battleRandom();
-    }
-     */
     public static boolean checkEmptyParty(List<Character> party) {
         boolean bool;
         bool = party.isEmpty();
@@ -42,11 +34,21 @@ public class Party {
     }
 
     private static void createRandomCharacter(int idParty) {
-        for (int i = 0; i < 5; i++) {
-            if (new Random().nextInt(1, 3) == 1) {
-                party.add(new Warrior(getRandomName(), idParty));
-            } else {
-                party.add(new Wizard(getRandomName(), idParty));
+        if (idParty == 0) {
+            for (int i = 0; i < 5; i++) {
+                if (new Random().nextInt(1, 3) == 1) {
+                    party0.add(new Warrior(getRandomName(), idParty));
+                } else {
+                    party0.add(new Wizard(getRandomName(), idParty));
+                }
+            }
+        } else if (idParty == 1) {
+            for (int i = 0; i < 5; i++) {
+                if (new Random().nextInt(1, 3) == 1) {
+                    party1.add(new Warrior(getRandomName(), idParty));
+                } else {
+                    party1.add(new Wizard(getRandomName(), idParty));
+                }
             }
         }
     }
@@ -78,19 +80,39 @@ public class Party {
                 }
             }
         }
-        //for (int i = 0; i < party.size(); i++) {
-        //    //System.out.println(party.get(i) + " " +1 party.get(i).getClass());
-        //}
     }
 
     public static void createRandomParty() {
         party = new ArrayList<>();
+        party0 = new ArrayList<>();
+        party1 = new ArrayList<>();
         createRandomCharacter(0);
         createRandomCharacter(1);
+        //System.out.println("Party "+party0);
+        //System.out.println("Party0 " + party0);
+        //System.out.println("Party1 " + party1);
     }
 
     private static boolean hasMembersAlive(int idParty) {
         boolean alive = false;
+        if (idParty == 0) {
+            for (Character p : party0) {
+                if (p.getIdParty() == idParty && p.getHp() > 0) {
+                    //if (p.idParty == idParty && p.isAlive){ codigo antiguo lili
+                    alive = true;
+                    return alive;
+                }
+            }
+        } else if (idParty == 1) {
+            for (Character p : party1) {
+                if (p.getIdParty() == idParty && p.getHp() > 0) {
+                    //if (p.idParty == idParty && p.isAlive){ codigo antiguo lili
+                    alive = true;
+                    return alive;
+                }
+            }
+        }
+        /*
         for (Character p : party) {
             if (p.getIdParty() == idParty && p.getHp() > 0) {
                 //if (p.idParty == idParty && p.isAlive){ codigo antiguo lili
@@ -98,68 +120,29 @@ public class Party {
                 return alive;
             }
         }
+         */
         return alive;
     }
 
-    public static void battleRandom() {
+    public static void battleRandom() throws Exception {
         Character player1, player2;
         int damage1 = 0, damage2 = 0;
-
         while (hasMembersAlive(0) && hasMembersAlive(1)) {
-            System.out.println(party);
             player1 = chooseCharacterRandom(0);
             player2 = chooseCharacterRandom(1);
-
-            while (player1.getHp() > 0 && player2.getHp() > 0) {
-                System.out.println("*******Player 1: " + player1);
-                System.out.println("*******Player 2: " + player2);
-
-                while (player1.getHp() > 0 && player2.getHp() > 0) {
-                    if (player1 instanceof Warrior) {
-                        if (((Warrior) player1).getStamina() < 15) {
-                            damage1 = (((Warrior) player1).attackNormal());
-                        } else {
-                            damage1 = (((Warrior) player1).attackEspecial());
-                        }
-                    } else if (player1 instanceof Wizard) {
-                        if (((Wizard) player1).getMana() < 15) {
-                            damage1 = (((Wizard) player1).attackNormal());
-                        } else {
-                            damage1 = (((Wizard) player1).attackEspecial());
-                        }
-                    }
-
-                    if (player2 instanceof Warrior) {
-                        if (((Warrior) player2).getStamina() < 15) {
-                            damage1 = (((Warrior) player2).attackNormal());
-                        } else {
-                            damage1 = (((Warrior) player2).attackEspecial());
-                        }
-                    } else if (player2 instanceof Wizard) {
-                        if (((Wizard) player2).getMana() < 15) {
-                            damage1 = (((Wizard) player2).attackNormal());
-                        } else {
-                            damage1 = (((Wizard) player2).attackEspecial());
-                        }
-                    }
-                }
-                System.out.println("Party 1 " + player1.getName() + " hace " + damage1 + " puntos de daño a " + player2.getName());
-                System.out.println("Party 2 " + player2.getName() + " hace " + damage2 + " puntos de daño a " + player1.getName());
-
-                player1.setHp(player1.getHp() - damage2);
-                player2.setHp(player2.getHp() - damage1);
-                if (player1.getHp() <= 0) {
-                    player1.setHp(0);
-                    player1.setAlive(false);
-                    System.out.println("Party 1 " + player1.getName() + " ha muerto");
-                }
-                if (player2.getHp() <= 0) {
-                    player2.setHp(0);
-                    player2.setAlive(false);
-                    System.out.println("Party 2 " + player2.getName() + " ha muerto");
-                }
-            }
+            Battles.battle(player1, player2);
         }
+            if (hasMembersAlive(0)) {
+                //System.out.println("\nParty 1 ha ganado la batalla\n");
+                System.out.println(Graphics.ANSI_BLUE);
+                Menu.winner("Party 1 ha ganado la batalla");
+                System.out.println(Graphics.ANSI_RESET);
+            } else {
+                System.out.println(Graphics.ANSI_GREEN);
+                Menu.winner("Party 2 ha ganado la batalla");
+                System.out.println(Graphics.ANSI_RESET);
+                //System.out.println("\nParty 2 ha ganado la batalla\n");
+            }
     }
 
     public static void battleManual() throws Exception {
@@ -167,7 +150,9 @@ public class Party {
         while (hasMembersAlive(0) && hasMembersAlive(1)) {
             Character player1 = chooseCharacterManual(0);
             Character player2 = chooseCharacterManual(1);
-
+            Battles.battle(player1, player2);
+        }
+            /*
             while (player1.getHp() > 0 && player2.getHp() > 0) {
                 if (player1 instanceof Warrior) {
                     if (((Warrior) player1).getStamina() >= 5) {
@@ -196,7 +181,6 @@ public class Party {
                         damage2 = (((Wizard) player2).attackEspecial());
                     }
                 }
-
                 System.out.print(Graphics.ANSI_BLUE + "Party 1 " + player1.getName() + Graphics.ANSI_RESET + " hace " + damage1 + " puntos de daño a " + Graphics.ANSI_GREEN + player2.getName());
                 System.out.println(Graphics.ANSI_RESET + " Y " + Graphics.ANSI_GREEN + "Party 2 " + player2.getName() + Graphics.ANSI_RESET + " hace " + damage2 + " puntos de daño a " + Graphics.ANSI_BLUE + "Party 1 " + player1.getName() + Graphics.ANSI_RESET);
 
@@ -216,8 +200,9 @@ public class Party {
                 }
             }
         }
+
+             */
         if (hasMembersAlive(0)) {
-            //System.out.println("\nParty 1 ha ganado la batalla\n");
             System.out.println(Graphics.ANSI_BLUE);
             Menu.winner("Party 1 ha ganado la batalla");
             System.out.println(Graphics.ANSI_RESET);
@@ -225,31 +210,34 @@ public class Party {
             System.out.println(Graphics.ANSI_GREEN);
             Menu.winner("Party 2 ha ganado la batalla");
             System.out.println(Graphics.ANSI_RESET);
-            //System.out.println("\nParty 2 ha ganado la batalla\n");
         }
     }
 
     private static Character chooseCharacterRandom(int idParty) {
         int random_character = 0;
-        if (idParty == 0) random_character = new Random().nextInt(0, 2);
-        if (idParty == 1) random_character = new Random().nextInt(2, 4);
-        for (int i = 0; i < party.size(); i++) {
-            //if (party.get(i).getIdParty() == idParty && party.get(i).getId() == random_character && party.get(i).getHp() > 0) {
-            if (party.get(i).getIdParty() == idParty && party.get(i).getId() == random_character) {
-                return party.get(random_character);
-            }
+        if (idParty == 0) {
+            random_character = new Random().nextInt(0, party0.size());
+            return party0.get(random_character);
+        }
+        if (idParty == 1) {
+            random_character = new Random().nextInt(0, party1.size());
+            return party1.get(random_character);
         }
         return null;
     }
 
     public static void removeCharacter(Character deathPlayer) {
         graveyard.add(deathPlayer);
-        party.remove(deathPlayer);
+        if (deathPlayer.getIdParty() == 0) {
+            party0.remove(deathPlayer);
+        } else if (deathPlayer.getIdParty() == 1) {
+            party1.remove(deathPlayer);
+        }
     }
 
     public static Character chooseCharacterManual(int idParty) {
         Character chosenCharacter = null;
-        System.out.println("Equipo " + (idParty+1));
+        System.out.println("Equipo " + (idParty + 1));
         System.out.print(Graphics.ANSI_BLUE);
         if (idParty == 1) System.out.print(Graphics.ANSI_GREEN);
         for (Character p : party) {
@@ -258,7 +246,7 @@ public class Party {
             }
         }
         System.out.print(Graphics.ANSI_RESET);
-        System.out.print("Elige personaje de equipo " + (idParty+1) + ": ");
+        System.out.print("Elige personaje de equipo " + (idParty + 1) + ": ");
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
         //System.out.println("Has elegido a: " + s);
