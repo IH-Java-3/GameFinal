@@ -254,6 +254,5 @@ public class Menu {
         //Music.startStopBattleMusic();
     }
 
-
 }
 
