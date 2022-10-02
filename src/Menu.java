@@ -35,9 +35,6 @@ public class Menu {
         Graphics.sky();
         boolean exit = false;
         int opcion;
-        //Music.stopMusic();
-        //Music.startBgMusic();
-        //Music.startStopBgMusic();
         System.out.println(Graphics.ANSI_RED);
         Menu.title("                Main Menu");
         System.out.println(Graphics.ANSI_RESET);
@@ -96,15 +93,16 @@ public class Menu {
         while (!salir) {
             System.out.println(Graphics.ANSI_RED);
             Menu.title("                Create Party");
+            System.out.println(Graphics.ANSI_BLUE);
+            System.out.println("                                                       1. Manual");
+            System.out.println("                                                       2. Al azar");
+            System.out.println("                                                       3. Importar desde CSV");
+            System.out.println("                                                       4. Volver al menu anterior");
             System.out.println(Graphics.ANSI_RESET);
-            System.out.println("1. Manual");
-            System.out.println("2. Al azar");
-            System.out.println("3. Importar desde CSV");
-            System.out.println("4. Volver al menu anterior");
             try {
                 Graphics.land();
                 System.out.print(Graphics.ANSI_CYAN);
-                System.out.print("                           Escribe una de las opciones: ");
+                System.out.print("                                                       Escribe una de las opciones: ");
                 System.out.print(Graphics.ANSI_RESET);
                 opcion = sn.nextInt();
                 switch (opcion) {
@@ -136,36 +134,28 @@ public class Menu {
     public static void createPartyManual() {
         Graphics.sky();
         System.out.println("Crear party Manual");
-        if(Party.checkEmptyParty(Party.party)) {
+        if(Party.checkEmptyParty(Party.party0) & Party.checkEmptyParty(Party.party1)) {
             Party.createCharacter();
         }
         Graphics.land();
     }
 
     public static void createPartyRandom() {
-        //Graphics.sky();
+        Graphics.sky();
         System.out.println("Crear party al Azar");
-        if(Party.checkEmptyParty(Party.party)) {
+        if(Party.checkEmptyParty(Party.party0) & Party.checkEmptyParty(Party.party1)) {
             Party.createRandomParty();
         }
-        //Graphics.land();
+        Graphics.land();
     }
 
     public static void createPartyImport() throws Exception {
-        //Music.stopMusic();
-        //Music.startBattleMusic();
-        //Music.startStopBgMusic();
-        //Music.startStopBattleMusic();
-
         Graphics.sky();
         System.out.println(Graphics.ANSI_RED);
         Menu.title("                Importar party");
         System.out.println(Graphics.ANSI_RESET);
-        //System.out.println("Importar party");
         Graphics.land();
         Party.importParty();
-        //Music.startStopBattleMusic();
-
     }
 
     public static void simulateBattle() {
@@ -176,12 +166,15 @@ public class Menu {
         boolean salir = false;
         int opcion;
         while (!salir) {
-            System.out.println("1. Manual");
-            System.out.println("2. Automatico");
-            System.out.println("3. Volver al menu anterior");
+            System.out.println(Graphics.ANSI_BLUE);
+            System.out.println("                                                       1. Manual");
+            System.out.println("                                                       2. Automatico");
+            System.out.println("                                                       3. Volver al menu anterior");
             try {
                 Graphics.land();
-                System.out.print("                           Escribe una de las opciones: ");
+                System.out.print(Graphics.ANSI_CYAN);
+                System.out.print("                                                       Escribe una de las opciones: ");
+                System.out.print(Graphics.ANSI_RESET);
                 opcion = sn.nextInt();
                 switch (opcion) {
                     case 1 -> {
@@ -229,7 +222,16 @@ public class Menu {
                 // 0 id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2
                 FileWriter myWriter = new FileWriter(file);
                 myWriter.write("0 id_party, 2type(Warrior 1 Wizard 2), 3name, 4hp, 5isalive, 6att1, 7att2\n");
-                for (Character p : Party.party) {
+                for (Character p : Party.party0) {
+                    myWriter.write(p.getIdParty() + ",");
+                    myWriter.write(((p instanceof Warrior) ? 1 : 2)+ ",");
+                    myWriter.write(p.getName() + ",");
+                    myWriter.write(p.getHp() + ",");
+                    myWriter.write(((p.isAlive) ? 1 : 0) + ",");
+                    myWriter.write(((p instanceof Warrior) ? ((Warrior) p).getStamina() : ((Wizard) p).getMana())+ ",");
+                    myWriter.write(((p instanceof Warrior) ? ((Warrior) p).getStrength() : ((Wizard) p).getIntelligence())+ "\n");
+                }
+                for (Character p : Party.party1) {
                     myWriter.write(p.getIdParty() + ",");
                     myWriter.write(((p instanceof Warrior) ? 1 : 2)+ ",");
                     myWriter.write(p.getName() + ",");

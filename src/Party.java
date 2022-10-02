@@ -23,7 +23,7 @@ public class Party {
     private static String getRandomName() {
         String name = Character.namesList.get(new Random().nextInt(0, Character.namesList.size()));
         boolean exists = false;
-        for (Character p : party) {
+        for (Character p : party0) {
             if (p.getName().equals(name)) {
                 exists = true;
                 break;
@@ -54,43 +54,43 @@ public class Party {
     }
 
     public static void createCharacter() {
+        createCharacterManual(0);
+        createCharacterManual(0);
+    }
+
+    public static void createCharacterManual(int idParty) {
         String opcion;
         String opcion2;
-        for (int i = 0; i < 2; i++) {
-            System.out.println("Estamos creando party " + (i + 1));
-            for (int j = 0; j < 2; j++) {
-                Scanner sn = new Scanner(System.in);
-                System.out.print("Introduzca el tipo del personaje " + (j + 1) + " WARRIOR o WIZARD : ");
-                opcion = sn.nextLine();
-                switch (opcion.toUpperCase()) {
-                    case "WARRIOR" -> {
-                        System.out.print("Introduzca el nombre del personaje " + (j + 1) + ": ");
-                        opcion2 = sn.nextLine();
-                        party.add(new Warrior(opcion2, i));
-                    }
-                    case "WIZARD" -> {
-                        System.out.print("Introduzca el nombre del personaje " + (j + 1) + ": ");
-                        opcion2 = sn.nextLine();
-                        party.add(new Wizard(opcion2, i));
-                    }
-                    default -> {
-                        System.out.println("Solo introduzca WARRIOR ó WIZARD");
-                        j--;
-                    }
+        System.out.println("Estamos creando party " + idParty);
+        for (int j = 0; j < 5; j++) {
+            Scanner sn = new Scanner(System.in);
+            System.out.print("Introduzca el tipo del personaje " + j + " WARRIOR o WIZARD : ");
+            opcion = sn.nextLine();
+            switch (opcion.toUpperCase()) {
+                case "WARRIOR" -> {
+                    System.out.print("Introduzca el nombre del personaje " + j + ": ");
+                    opcion2 = sn.nextLine();
+                    party.add(new Warrior(opcion2, idParty));
+                }
+                case "WIZARD" -> {
+                    System.out.print("Introduzca el nombre del personaje " + j + ": ");
+                    opcion2 = sn.nextLine();
+                    party.add(new Wizard(opcion2, idParty));
+                }
+                default -> {
+                    System.out.println("Solo introduzca WARRIOR ó WIZARD");
+                    j--;
                 }
             }
         }
     }
 
     public static void createRandomParty() {
-        party = new ArrayList<>();
+        //party = new ArrayList<>();
         party0 = new ArrayList<>();
         party1 = new ArrayList<>();
         createRandomCharacter(0);
         createRandomCharacter(1);
-        //System.out.println("Party "+party0);
-        //System.out.println("Party0 " + party0);
-        //System.out.println("Party1 " + party1);
     }
 
     private static boolean hasMembersAlive(int idParty) {
@@ -98,7 +98,6 @@ public class Party {
         if (idParty == 0) {
             for (Character p : party0) {
                 if (p.getIdParty() == idParty && p.getHp() > 0) {
-                    //if (p.idParty == idParty && p.isAlive){ codigo antiguo lili
                     alive = true;
                     return alive;
                 }
@@ -106,102 +105,42 @@ public class Party {
         } else if (idParty == 1) {
             for (Character p : party1) {
                 if (p.getIdParty() == idParty && p.getHp() > 0) {
-                    //if (p.idParty == idParty && p.isAlive){ codigo antiguo lili
                     alive = true;
                     return alive;
                 }
             }
         }
-        /*
-        for (Character p : party) {
-            if (p.getIdParty() == idParty && p.getHp() > 0) {
-                //if (p.idParty == idParty && p.isAlive){ codigo antiguo lili
-                alive = true;
-                return alive;
-            }
-        }
-         */
         return alive;
     }
 
     public static void battleRandom() throws Exception {
         Character player1, player2;
-        int damage1 = 0, damage2 = 0;
+        //int damage1 = 0, damage2 = 0;
         while (hasMembersAlive(0) && hasMembersAlive(1)) {
             player1 = chooseCharacterRandom(0);
             player2 = chooseCharacterRandom(1);
             Battles.battle(player1, player2);
         }
-            if (hasMembersAlive(0)) {
-                //System.out.println("\nParty 1 ha ganado la batalla\n");
-                System.out.println(Graphics.ANSI_BLUE);
-                Menu.winner("Party 1 ha ganado la batalla");
-                System.out.println(Graphics.ANSI_RESET);
-            } else {
-                System.out.println(Graphics.ANSI_GREEN);
-                Menu.winner("Party 2 ha ganado la batalla");
-                System.out.println(Graphics.ANSI_RESET);
-                //System.out.println("\nParty 2 ha ganado la batalla\n");
-            }
+        if (hasMembersAlive(0)) {
+            //System.out.println("\nParty 1 ha ganado la batalla\n");
+            System.out.println(Graphics.ANSI_BLUE);
+            Menu.winner("Party 1 ha ganado la batalla");
+            System.out.println(Graphics.ANSI_RESET);
+        } else {
+            System.out.println(Graphics.ANSI_GREEN);
+            Menu.winner("Party 2 ha ganado la batalla");
+            System.out.println(Graphics.ANSI_RESET);
+            //System.out.println("\nParty 2 ha ganado la batalla\n");
+        }
     }
 
     public static void battleManual() throws Exception {
-        int damage1 = 0, damage2 = 0;
+        //int damage1 = 0, damage2 = 0;
         while (hasMembersAlive(0) && hasMembersAlive(1)) {
             Character player1 = chooseCharacterManual(0);
             Character player2 = chooseCharacterManual(1);
             Battles.battle(player1, player2);
         }
-            /*
-            while (player1.getHp() > 0 && player2.getHp() > 0) {
-                if (player1 instanceof Warrior) {
-                    if (((Warrior) player1).getStamina() >= 5) {
-                        damage1 = (((Warrior) player1).attackNormal());
-                    } else {
-                        damage1 = (((Warrior) player1).attackEspecial());
-                    }
-                } else if (player1 instanceof Wizard) {
-                    if (((Wizard) player1).getMana() >= 5) {
-                        damage1 = (((Wizard) player1).attackNormal());
-                    } else {
-                        damage1 = (((Wizard) player1).attackEspecial());
-                    }
-                }
-
-                if (player2 instanceof Warrior) {
-                    if (((Warrior) player2).getStamina() >= 5) {
-                        damage2 = (((Warrior) player2).attackNormal());
-                    } else {
-                        damage2 = (((Warrior) player2).attackEspecial());
-                    }
-                } else if (player2 instanceof Wizard) {
-                    if (((Wizard) player2).getMana() >= 5) {
-                        damage2 = (((Wizard) player2).attackNormal());
-                    } else {
-                        damage2 = (((Wizard) player2).attackEspecial());
-                    }
-                }
-                System.out.print(Graphics.ANSI_BLUE + "Party 1 " + player1.getName() + Graphics.ANSI_RESET + " hace " + damage1 + " puntos de daño a " + Graphics.ANSI_GREEN + player2.getName());
-                System.out.println(Graphics.ANSI_RESET + " Y " + Graphics.ANSI_GREEN + "Party 2 " + player2.getName() + Graphics.ANSI_RESET + " hace " + damage2 + " puntos de daño a " + Graphics.ANSI_BLUE + "Party 1 " + player1.getName() + Graphics.ANSI_RESET);
-
-                player1.setHp(player1.getHp() - damage2);
-                player2.setHp(player2.getHp() - damage1);
-                if (player1.getHp() <= 0) {
-                    player1.setHp(0);
-                    player1.setAlive(false);
-                    removeCharacter(player1);
-                    System.out.println(Graphics.ANSI_BLUE + "Party 1 " + Graphics.ANSI_RED + player1.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
-                }
-                if (player2.getHp() <= 0) {
-                    player2.setHp(0);
-                    player2.setAlive(false);
-                    removeCharacter(player2);
-                    System.out.println(Graphics.ANSI_GREEN + "Party 2 " + Graphics.ANSI_RED + player2.getName() + " ha muerto\n" + Graphics.ANSI_RESET);
-                }
-            }
-        }
-
-             */
         if (hasMembersAlive(0)) {
             System.out.println(Graphics.ANSI_BLUE);
             Menu.winner("Party 1 ha ganado la batalla");
@@ -214,7 +153,7 @@ public class Party {
     }
 
     private static Character chooseCharacterRandom(int idParty) {
-        int random_character = 0;
+        int random_character;
         if (idParty == 0) {
             random_character = new Random().nextInt(0, party0.size());
             return party0.get(random_character);
@@ -237,7 +176,7 @@ public class Party {
 
     public static Character chooseCharacterManual(int idParty) {
         Character chosenCharacter = null;
-        System.out.println("Equipo " + (idParty + 1));
+        System.out.println("Equipo " + idParty);
         System.out.print(Graphics.ANSI_BLUE);
         if (idParty == 1) System.out.print(Graphics.ANSI_GREEN);
         for (Character p : party) {
@@ -246,7 +185,7 @@ public class Party {
             }
         }
         System.out.print(Graphics.ANSI_RESET);
-        System.out.print("Elige personaje de equipo " + (idParty + 1) + ": ");
+        System.out.print("Elige personaje de equipo " + idParty + ": ");
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
         //System.out.println("Has elegido a: " + s);

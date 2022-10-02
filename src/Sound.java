@@ -32,6 +32,7 @@ public class Sound implements Runnable {
         Clip clip;
         try {
             clip = AudioSystem.getClip();
+
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
@@ -42,6 +43,7 @@ public class Sound implements Runnable {
         try {
             line = (SourceDataLine) AudioSystem.getLine(info);
             line.open(audioFormat);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
